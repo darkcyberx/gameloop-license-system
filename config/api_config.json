@@ -1,0 +1,57 @@
+{
+  "api_config": {
+    "base_url": "https://raw.githubusercontent.com/darkcyberx/gameloop-license-system/main",
+    "endpoints": {
+      "license_check": "/api/check_license.json",
+      "device_activation": "/api/activate_device.json", 
+      "license_validation": "/database/licenses.json",
+      "system_info": "/api/system_info.json",
+      "device_management": "/api/device_management.json"
+    },
+    "authentication": {
+      "method": "github_token",
+      "token": "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",
+      "required_headers": {
+        "Authorization": "token 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",
+        "User-Agent": "GameloopLauncher-LicenseSystem/1.0",
+        "Accept": "application/vnd.github.v3.raw"
+      }
+    }
+  },
+  "license_validation_rules": {
+    "key_format": "GL-{TYPE}-{YEAR}-{PART1}-{PART2}-{CHECKSUM}",
+    "key_length": 29,
+    "allowed_types": ["DEMO", "BASIC", "PRO", "ENTERPRISE"],
+    "max_devices_per_license": {
+      "DEMO": 1,
+      "BASIC": 3,
+      "PRO": 5,
+      "ENTERPRISE": 10
+    },
+    "license_duration_days": {
+      "DEMO": 7,
+      "BASIC": 30,
+      "PRO": 365,
+      "ENTERPRISE": 365
+    }
+  },
+  "device_fingerprinting": {
+    "required_components": [
+      "motherboard_serial",
+      "cpu_id", 
+      "disk_serial",
+      "mac_address",
+      "windows_product_id"
+    ],
+    "hash_algorithm": "SHA256",
+    "salt": "GameloopLauncher2025-SecureSalt-XYZ789"
+  },
+  "security_settings": {
+    "max_activation_attempts": 5,
+    "lockout_duration_minutes": 30,
+    "device_change_detection": true,
+    "vpn_detection": true,
+    "vm_detection": true,
+    "time_drift_tolerance_minutes": 15
+  }
+}
