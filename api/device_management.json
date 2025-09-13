@@ -1,0 +1,124 @@
+{
+  "device_management_api": {
+    "version": "1.0.0",
+    "description": "Professional device activation and management system",
+    "capabilities": [
+      "device_activation",
+      "device_deactivation", 
+      "device_listing",
+      "device_transfer",
+      "hardware_change_detection",
+      "device_limits_enforcement"
+    ]
+  },
+  "activation_process": {
+    "new_device_activation": {
+      "step_1": "Generate unique device fingerprint",
+      "step_2": "Check license validity and device limits",
+      "step_3": "Verify device not blacklisted",
+      "step_4": "Create device binding record",
+      "step_5": "Update license device count",
+      "step_6": "Return activation confirmation"
+    },
+    "device_fingerprint_generation": {
+      "components": [
+        "motherboard_serial_number",
+        "cpu_unique_id",
+        "primary_disk_serial", 
+        "primary_mac_address",
+        "windows_product_id"
+      ],
+      "algorithm": "SHA256(concat(components) + salt)",
+      "format": "HWID-{8chars}-{8chars}-{8chars}-{8chars}"
+    }
+  },
+  "device_operations": {
+    "activate_device": {
+      "endpoint": "/api/device/activate",
+      "method": "POST",
+      "required_params": {
+        "license_key": "string",
+        "device_id": "string", 
+        "device_name": "string",
+        "hardware_info": "object"
+      },
+      "success_response": {
+        "status": "success",
+        "device_activated": true,
+        "device_slot": 1,
+        "remaining_slots": 2,
+        "activation_date": "2025-09-13T11:25:30Z"
+      }
+    },
+    "deactivate_device": {
+      "endpoint": "/api/device/deactivate", 
+      "method": "POST",
+      "required_params": {
+        "license_key": "string",
+        "device_id": "string"
+      },
+      "success_response": {
+        "status": "success",
+        "device_deactivated": true,
+        "freed_slot": 1,
+        "available_slots": 3
+      }
+    },
+    "list_devices": {
+      "endpoint": "/api/device/list",
+      "method": "GET", 
+      "required_params": {
+        "license_key": "string"
+      },
+      "success_response": {
+        "status": "success",
+        "total_devices": 2,
+        "max_devices": 5,
+        "devices": [
+          {
+            "device_id": "HWID-12345-ABCDE-67890-FGHIJ",
+            "device_name": "Gaming PC - Windows 11",
+            "status": "active",
+            "first_activation": "2025-09-13T11:23:51Z",
+            "last_seen": "2025-09-13T11:23:51Z"
+          }
+        ]
+      }
+    }
+  },
+  "security_features": {
+    "hardware_change_detection": {
+      "enabled": true,
+      "tolerance_level": "medium",
+      "critical_components": ["motherboard", "cpu"],
+      "action_on_change": "require_reactivation"
+    },
+    "vm_detection": {
+      "enabled": true,
+      "detected_vms": ["vmware", "virtualbox", "hyper-v", "qemu"],
+      "action": "block_activation"
+    },
+    "rate_limiting": {
+      "max_requests_per_hour": 100,
+      "max_activation_attempts": 5,
+      "cooldown_period_minutes": 30
+    }
+  },
+  "admin_operations": {
+    "force_deactivate": {
+      "description": "Admin can force deactivate any device",
+      "required_auth": "admin_token",
+      "logs_action": true
+    },
+    "transfer_license": {
+      "description": "Transfer license to different devices",
+      "preserves_expiry": true,
+      "resets_device_list": true
+    },
+    "extend_license": {
+      "description": "Extend license expiration date",
+      "supports_bulk": true,
+      "auto_notification": true
+    }
+  }
+}
