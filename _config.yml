@@ -1,0 +1,105 @@
+# GitHub Pages Configuration for PUBG License Dashboard
+# Security and Performance Settings
+
+# Basic settings
+title: "PUBG License Management Dashboard"
+description: "Secure license management system for PUBG gaming community"
+url: "https://darkcyberx.github.io"
+baseurl: "/gameloop-license-system"
+
+# Security settings
+enforce_ssl: true
+
+# Jekyll plugins for security and performance
+plugins:
+  - jekyll-redirect-from
+  - jekyll-sitemap
+  - jekyll-gzip
+  - jekyll-compress-html
+
+# Markdown processor
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+# Performance optimization
+sass:
+  style: compressed
+  
+# Compression settings
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  startings: []
+  blanklines: false
+  profile: false
+
+# Security headers (enforced by GitHub Pages)
+# Additional headers are set via meta tags in HTML
+
+# Exclude sensitive files from build
+exclude:
+  - .env
+  - .env.local
+  - .env.production
+  - security-logs/
+  - audit-logs/
+  - "*.backup"
+  - "*.bak"
+  - node_modules/
+  - vendor/
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - SECURITY_DEPLOYMENT_GUIDE.md
+
+# Default layout and front matter
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+      
+  - scope:
+      path: "assets"
+    values:
+      cache: true
+
+# Theme settings (optional)
+theme: minima
+
+# Social links (optional)
+github_username: darkcyberx
+
+# Collections (if needed for future expansions)
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:name/
+
+# Build settings
+highlighter: rouge
+incremental: true
+regenerate: true
+
+# Timezone
+timezone: UTC
+
+# Encoding
+encoding: utf-8
+
+# Liquid settings
+liquid:
+  error_mode: warn
+  strict_filters: false
+  strict_variables: false
+
+# Development settings (ignored in production)
+livereload: true
+open_url: false
