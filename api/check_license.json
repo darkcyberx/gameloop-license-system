@@ -1,0 +1,73 @@
+{
+  "api_version": "1.0.0",
+  "timestamp": "2025-09-13T11:24:51Z",
+  "license_check_endpoint": {
+    "description": "Professional license validation API for Gameloop Launcher",
+    "supported_operations": [
+      "validate_license",
+      "check_device_binding",
+      "verify_expiration",
+      "get_license_info"
+    ]
+  },
+  "request_format": {
+    "method": "POST",
+    "content_type": "application/json",
+    "required_fields": {
+      "license_key": "string - Format: GL-TYPE-YEAR-PART1-PART2-CHECKSUM",
+      "device_id": "string - Unique hardware fingerprint",
+      "action": "string - One of: validate, activate, deactivate, info"
+    },
+    "optional_fields": {
+      "device_name": "string - Human readable device name",
+      "hardware_info": "object - CPU, RAM, OS details",
+      "app_version": "string - Gameloop Launcher version"
+    }
+  },
+  "response_format": {
+    "success_response": {
+      "status": "success",
+      "valid": true,
+      "license_info": {
+        "key": "GL-PRO-2025-ABCD-EFGH-1234",
+        "type": "PRO",
+        "expires": "2025-12-13T11:23:51Z",
+        "days_remaining": 90,
+        "max_devices": 5,
+        "current_devices": 2,
+        "features": ["pubg_auto_update", "gameloop_management", "advanced_settings"]
+      },
+      "device_status": "active",
+      "message": "License valid and device authorized"
+    },
+    "error_response": {
+      "status": "error",
+      "valid": false,
+      "error_code": "LICENSE_EXPIRED",
+      "message": "License has expired",
+      "details": {
+        "expired_date": "2025-09-01T00:00:00Z",
+        "renewal_url": "https://gameloop-license.com/renew"
+      }
+    }
+  },
+  "error_codes": {
+    "INVALID_LICENSE": "License key format is invalid or doesn't exist",
+    "LICENSE_EXPIRED": "License has passed expiration date",
+    "DEVICE_LIMIT_EXCEEDED": "Maximum number of devices reached for this license",
+    "DEVICE_NOT_AUTHORIZED": "Device is not bound to this license",
+    "LICENSE_REVOKED": "License has been revoked",
+    "DEVICE_BLACKLISTED": "Device is blacklisted",
+    "HARDWARE_CHANGED": "Significant hardware changes detected",
+    "RATE_LIMITED": "Too many requests, please try again later",
+    "INVALID_REQUEST": "Request format is invalid"
+  },
+  "validation_process": {
+    "step_1": "Verify license key format and existence",
+    "step_2": "Check license expiration date",
+    "step_3": "Validate device fingerprint",
+    "step_4": "Check device binding and limits",
+    "step_5": "Verify license status (not revoked)",
+    "step_6": "Return authorization result"
+  }
+}
