@@ -1,0 +1,88 @@
+{
+  "system_info": {
+    "version": "1.0.0",
+    "created": "2025-09-13T11:23:51Z",
+    "last_updated": "2025-09-13T11:23:51Z",
+    "total_licenses": 0,
+    "active_licenses": 0,
+    "expired_licenses": 0
+  },
+  "license_keys": {
+    "demo_license_example": {
+      "license_key": "GL-DEMO-2025-ABCD-EFGH-1234",
+      "status": "active",
+      "created_date": "2025-09-13T11:23:51Z",
+      "expiry_date": "2025-12-13T11:23:51Z",
+      "days_remaining": 90,
+      "max_devices": 3,
+      "current_devices": 2,
+      "owner_info": {
+        "name": "Demo User",
+        "email": "demo@example.com",
+        "registration_date": "2025-09-13T11:23:51Z"
+      },
+      "device_bindings": {
+        "device_001": {
+          "device_id": "HWID-12345-ABCDE-67890-FGHIJ",
+          "device_name": "Gaming PC - Windows 11",
+          "first_activation": "2025-09-13T11:23:51Z",
+          "last_seen": "2025-09-13T11:23:51Z",
+          "status": "active",
+          "hardware_info": {
+            "cpu": "Intel Core i7-12700K",
+            "motherboard": "ASUS ROG STRIX Z690-E",
+            "memory": "32GB DDR4",
+            "os": "Windows 11 Pro"
+          }
+        },
+        "device_002": {
+          "device_id": "HWID-54321-EDCBA-09876-JIHGF",
+          "device_name": "Laptop - Windows 10",
+          "first_activation": "2025-09-14T10:30:00Z",
+          "last_seen": "2025-09-14T15:45:00Z",
+          "status": "active",
+          "hardware_info": {
+            "cpu": "AMD Ryzen 7 5800H",
+            "motherboard": "HP OEM Board",
+            "memory": "16GB DDR4",
+            "os": "Windows 10 Pro"
+          }
+        }
+      },
+      "usage_statistics": {
+        "total_activations": 2,
+        "total_launches": 45,
+        "last_launch": "2025-09-14T15:45:00Z",
+        "features_used": [
+          "pubg_update",
+          "gameloop_kill",
+          "registry_update"
+        ]
+      },
+      "license_type": "premium",
+      "features_enabled": [
+        "pubg_auto_update",
+        "gameloop_management", 
+        "registry_tools",
+        "advanced_settings",
+        "priority_support"
+      ]
+    }
+  },
+  "revoked_licenses": {
+    "example_revoked": {
+      "license_key": "GL-REVOKED-2025-XXXX-YYYY-9999",
+      "revoked_date": "2025-09-10T12:00:00Z",
+      "revoke_reason": "License violation - sharing key",
+      "original_expiry": "2025-12-10T12:00:00Z"
+    }
+  },
+  "blacklisted_devices": {
+    "example_blacklist": {
+      "device_id": "HWID-BLOCKED-12345-ABCDE-67890",
+      "blacklist_date": "2025-09-10T12:00:00Z",
+      "reason": "Multiple license violations",
+      "permanent": true
+    }
+  }
+}
