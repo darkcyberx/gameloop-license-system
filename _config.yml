@@ -1,14 +1,18 @@
 # GitHub Pages Configuration for PUBG License Dashboard
-# Security and Performance Settings
+# إعدادات GitHub Pages لداش بورد إدارة تراخيص PUBG
 
-# Basic settings
-title: "PUBG License Management Dashboard"
-description: "Secure license management system for PUBG gaming community"
-url: "https://darkcyberx.github.io"
-baseurl: "/gameloop-license-system"
+# Basic settings - الإعدادات الأساسية
+title: "نظام إدارة تراخيص PUBG"
+description: "نظام إدارة آمن لتراخيص مجتمع ألعاب PUBG"
+url: "https://yourusername.github.io"  # استبدل بـ اسم المستخدم الخاص بك
+baseurl: "/gameloop-license-system"    # استبدل بـ اسم المستودع الخاص بك
 
-# Security settings
+# Security settings - إعدادات الأمان
 enforce_ssl: true
+
+# Language settings - إعدادات اللغة
+lang: ar
+direction: rtl
 
 # Jekyll plugins for security and performance
 plugins:
@@ -55,6 +59,7 @@ exclude:
   - gemfiles/
   - Gemfile
   - Gemfile.lock
+  - README.md
   - LICENSE
   - SECURITY_DEPLOYMENT_GUIDE.md
 
@@ -75,7 +80,10 @@ defaults:
 theme: minima
 
 # Social links (optional)
-github_username: darkcyberx
+github_username: yourusername
+
+# Analytics (optional - only if needed)
+# google_analytics: UA-XXXXXXXX-X
 
 # Collections (if needed for future expansions)
 collections:
