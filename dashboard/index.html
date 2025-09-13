@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏆 لوحة تحكم التراخيص الاحترافية - Professional License Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        تسجيل الدخول - Admin Login
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">اسم المستخدم - Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="admin" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">كلمة المرور - Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="••••••••" required>
+                        </div>
+                        <div class="alert alert-danger d-none" id="loginError">
+                            خطأ في اسم المستخدم أو كلمة المرور
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="login()">
+                        <i class="fas fa-sign-in-alt me-2"></i>
+                        دخول - Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="d-none">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-crown me-2"></i>
+                    لوحة تحكم التراخيص الاحترافية
+                </a>
+                <div class="navbar-nav ms-auto">
+                    <span class="navbar-text me-3">
+                        <i class="fas fa-user me-1"></i>
+                        مرحباً Admin
+                    </span>
+                    <button class="btn btn-outline-light btn-sm" onclick="logout()">
+                        <i class="fas fa-sign-out-alt me-1"></i>
+                        خروج
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Statistics Cards -->
+        <div class="container-fluid mt-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card stat-card bg-primary text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5>إجمالي التراخيص</h5>
+                                    <h2 id="totalLicenses">0</h2>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-key fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card bg-success text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5>التراخيص النشطة</h5>
+                                    <h2 id="activeLicenses">0</h2>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-check-circle fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card bg-warning text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5>التراخيص المنتهية</h5>
+                                    <h2 id="expiredLicenses">0</h2>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card bg-info text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5>إجمالي الأجهزة</h5>
+                                    <h2 id="totalDevices">0</h2>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-desktop fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Tabs -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <ul class="nav nav-tabs" id="mainTabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#licensesTab">
+                                <i class="fas fa-list me-2"></i>
+                                إدارة التراخيص
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#customersTab">
+                                <i class="fas fa-users me-2"></i>
+                                إدارة العملاء
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#createTab">
+                                <i class="fas fa-plus me-2"></i>
+                                إنشاء ترخيص جديد
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#settingsTab">
+                                <i class="fas fa-cog me-2"></i>
+                                الإعدادات
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content mt-3">
+                        <!-- Licenses Management Tab -->
+                        <div class="tab-pane fade show active" id="licensesTab">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5><i class="fas fa-key me-2"></i>إدارة التراخيص</h5>
+                                    <div>
+                                        <input type="text" class="form-control d-inline-block w-auto me-2" 
+                                               id="searchLicenses" placeholder="البحث...">
+                                        <button class="btn btn-primary btn-sm" onclick="loadLicenses()">
+                                            <i class="fas fa-sync me-1"></i>تحديث
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover" id="licensesTable">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th>مفتاح الترخيص</th>
+                                                    <th>اسم العميل</th>
+                                                    <th>الهاتف</th>
+                                                    <th>البريد</th>
+                                                    <th>الحالة</th>
+                                                    <th>النوع</th>
+                                                    <th>تاريخ الانتهاء</th>
+                                                    <th>الأجهزة</th>
+                                                    <th>الإجراءات</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- License data will be loaded here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Customers Management Tab -->
+                        <div class="tab-pane fade" id="customersTab">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-users me-2"></i>إدارة العملاء</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover" id="customersTable">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th>اسم العميل</th>
+                                                    <th>الهاتف</th>
+                                                    <th>البريد الإلكتروني</th>
+                                                    <th>واتساب</th>
+                                                    <th>تليجرام</th>
+                                                    <th>ديسكورد</th>
+                                                    <th>عدد التراخيص</th>
+                                                    <th>آخر نشاط</th>
+                                                    <th>الإجراءات</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Customer data will be loaded here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Create New License Tab -->
+                        <div class="tab-pane fade" id="createTab">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-plus me-2"></i>إنشاء ترخيص جديد</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="createLicenseForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h6 class="text-primary">معلومات العميل</h6>
+                                                <div class="mb-3">
+                                                    <label class="form-label">اسم العميل *</label>
+                                                    <input type="text" class="form-control" name="customerName" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">رقم الهاتف *</label>
+                                                    <input type="tel" class="form-control" name="customerPhone" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">البريد الإلكتروني</label>
+                                                    <input type="email" class="form-control" name="customerEmail">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">واتساب</label>
+                                                    <input type="text" class="form-control" name="whatsapp">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">تليجرام</label>
+                                                    <input type="text" class="form-control" name="telegram">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">ديسكورد</label>
+                                                    <input type="text" class="form-control" name="discord">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-primary">معلومات الترخيص</h6>
+                                                <div class="mb-3">
+                                                    <label class="form-label">نوع الترخيص *</label>
+                                                    <select class="form-select" name="licenseType" required>
+                                                        <option value="DEMO">DEMO (7 أيام - جهاز واحد)</option>
+                                                        <option value="BASIC" selected>BASIC (30 يوم - 3 أجهزة)</option>
+                                                        <option value="PRO">PRO (365 يوم - 5 أجهزة)</option>
+                                                        <option value="ENTERPRISE">ENTERPRISE (365 يوم - 10 أجهزة)</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">المدة (أيام) *</label>
+                                                    <input type="number" class="form-control" name="duration" value="30" min="1" max="3650" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">الحد الأقصى للأجهزة *</label>
+                                                    <input type="number" class="form-control" name="maxDevices" value="3" min="1" max="10" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">السعر (USD) *</label>
+                                                    <input type="number" class="form-control" name="price" value="29.99" step="0.01" min="0" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">ملاحظات</label>
+                                                    <textarea class="form-control" name="notes" rows="3"></textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-success">
+                                                    <i class="fas fa-plus me-2"></i>إنشاء الترخيص
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Settings Tab -->
+                        <div class="tab-pane fade" id="settingsTab">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-cog me-2"></i>إعدادات النظام</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6>إعدادات الأمان</h6>
+                                            <div class="mb-3">
+                                                <label class="form-label">تغيير كلمة المرور</label>
+                                                <input type="password" class="form-control" id="newPassword" placeholder="كلمة المرور الجديدة">
+                                                <button class="btn btn-warning mt-2" onclick="changePassword()">تغيير كلمة المرور</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6>أدوات البيانات</h6>
+                                            <button class="btn btn-info me-2" onclick="exportData()">
+                                                <i class="fas fa-download me-1"></i>تصدير البيانات
+                                            </button>
+                                            <button class="btn btn-primary me-2" onclick="backupData()">
+                                                <i class="fas fa-save me-1"></i>نسخ احتياطي
+                                            </button>
+                                            <button class="btn btn-secondary" onclick="refreshGitHubData()">
+                                                <i class="fab fa-github me-1"></i>تحديث من GitHub
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">جاري التحميل...</span>
+        </div>
+    </div>
+
+    <!-- Success/Error Toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="notificationToast" class="toast" role="alert">
+            <div class="toast-header">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong class="me-auto">إشعار</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="toastMessage">
+                رسالة الإشعار
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
